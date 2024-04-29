@@ -1,13 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../assets/GoDocBlack.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Axios from "axios";
 
 const Signup = () => {
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    Axios.post("http://localhost:3000/auth/signup", {
+      firstname,
+      lastname,
+      email,
+      password,
+    })
+      .then((response) => {
+        if (response.data.status) {
+          navigate("/login");
+        }
+      })
+      .catch((err) => {
+        console.log("Error occured during signup", err);
+      });
+  };
+
   return (
     <div className="h-screen bg-gradient-to-r from-black to-slate-900 pt-20">
       <div className="mx-auto ">
         <div className="flex w-10/12 md:w-9/12 bg-white rounded-2xl mx-auto shadow-xl overflow-hidden">
-          <div className="w-1/2 hidden md:flex p-8 flex-wrap">
+          <div className="w-1/2 hidden md:flex p-8 flex-wrap bg-gradient-to-l from-black to-slate-900">
             <img src={logo} alt="signup image" className="rounded-3xl" />
           </div>
           <div className="w-full md:w-1/2 py-16 px-12">
@@ -15,22 +41,24 @@ const Signup = () => {
             <p className="mb-4">
               Create your account. It's free and only takes a minute.
             </p>
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="flex flex-col sm:flex-row gap-5">
                 <input
                   type="text"
                   placeholder="First Name"
                   id="firstname"
-                  name='firstname'
+                  name="firstname"
                   className="border border-slate-400 rounded-lg py-2 px-2 sm:w-1/2"
                   required
+                  onChange={(e) => setFirstname(e.target.value)}
                 />
                 <input
                   type="text"
                   placeholder="Last Name"
                   id="lastname"
-                  name='lastname'
+                  name="lastname"
                   className="border border-slate-400 rounded-lg py-2 px-2 sm:w-1/2"
+                  onChange={(e) => setLastname(e.target.value)}
                 />
               </div>
               <div className="mt-5">
@@ -38,19 +66,21 @@ const Signup = () => {
                   type="email"
                   placeholder="email"
                   id="email"
-                  name='email'
+                  name="email"
                   className="border border-slate-400 rounded-lg py-2 px-2 w-full"
                   required
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="mt-5">
                 <input
                   type="password"
-                  placeholder="Password"
+                  placeholder="password"
                   id="password"
-                  name='password'
+                  name="password"
                   className="border border-slate-400 rounded-lg py-2 px-2 w-full"
                   required
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               <div className="mt-5">
