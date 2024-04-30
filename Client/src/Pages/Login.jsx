@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import logo from "../assets/GoDocBlack.svg";
 import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
+import Button from "../components/Button";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -80,9 +81,7 @@ const Login = () => {
                     </a>
                   </span>
                 </div>
-                <button className="mt-5 p-4 bg-black text-white rounded-xl uppercase font-semibold text-center sm:w-full">
-                  Login
-                </button>
+                <Button content='Login' />
                 <p className="pt-2">
                   Forgot your password?{" "}
                   <span className="text-blue-600 font-semibold">

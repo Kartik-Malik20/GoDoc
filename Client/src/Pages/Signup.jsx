@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import logo from "../assets/GoDocBlack.svg";
 import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
+import Button from "../components/Button";
 
 const Signup = () => {
   const [firstname, setFirstname] = useState("");
@@ -101,9 +102,7 @@ const Signup = () => {
                   </a>
                 </span>
               </div>
-              <button className="mt-5 p-4 bg-black text-white rounded-xl uppercase font-semibold text-center sm:w-full">
-                Register Now
-              </button>
+              <Button content='Register Now' />
               <p className="pt-4">
                 Already have an account?{" "}
                 <span className="text-red-600 font-semibold">

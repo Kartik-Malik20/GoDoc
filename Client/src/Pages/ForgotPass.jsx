@@ -2,6 +2,7 @@ import Axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/GoDocBlack.svg";
+import Button from "../components/Button";
 
 const ForgotPass = () => {
   const [email, setEmail] = useState("");
@@ -48,9 +49,7 @@ const ForgotPass = () => {
                   />
                 </div>
 
-                <button className="mt-5 p-4 bg-black text-white rounded-xl uppercase font-semibold text-center sm:w-full">
-                  submit
-                </button>
+                <Button content='Submit' />
               </form>
             </div>
           </div>

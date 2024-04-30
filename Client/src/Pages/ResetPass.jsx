@@ -2,6 +2,7 @@ import Axios from "axios";
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import logo from "../assets/GoDocBlack.svg";
+import Button from "../components/Button";
 
 const ResetPass = () => {
   const [password, setPassword] = useState("");
@@ -50,9 +51,7 @@ const ResetPass = () => {
                   />
                 </div>
 
-                <button className="mt-5 p-4 bg-black text-white rounded-xl uppercase font-semibold text-center sm:w-full">
-                  Reset
-                </button>
+                <Button content='Reset Password' />
               </form>
             </div>
           </div>
