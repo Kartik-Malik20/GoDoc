@@ -8,6 +8,7 @@ import { UserLoginRouter } from "./routes/user_login.js";
 import cors from "cors";
 import { ForgotPassRouter } from "./routes/forgot_pass.js";
 import { ResetPassRouter } from "./routes/reset_pass.js";
+import { DocSignup } from "./routes/doctor_signup.js";
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use(express.json());
 
 // Routes
 app.use("/auth", UserSignupRouter);
+app.use("/auth", DocSignup);
 app.use("/auth", UserLoginRouter);
 app.use("/auth", ForgotPassRouter);
 app.use("/auth", ResetPassRouter);

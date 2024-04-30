@@ -40,7 +40,7 @@ const Signup = () => {
           <div className="w-full md:w-1/2 py-16 px-12">
             <h2 className="text-3xl mb-4 font-bold underline">Register</h2>
             <p className="mb-4">
-              Create your account. It's free and only takes a minute.
+              Create your account as a <span className="text-lg font-semibold text-blue-500">Patient</span>. It's free and only takes a minute.
             </p>
             <form onSubmit={handleSubmit}>
               <div className="flex flex-col sm:flex-row gap-5">
@@ -107,6 +107,12 @@ const Signup = () => {
                 Already have an account?{" "}
                 <span className="text-red-600 font-semibold">
                   <Link to="/login">Login</Link>
+                </span>
+              </p>
+              <p className="pt-4">
+                Sign Up as a <span className="text-lg font-semibold text-red-600">Doctor</span> : &nbsp;
+                <span className="text-emerald-600 text-lg font-semibold underline">
+                  <Link to="/doctorsignup">Click Here</Link>
                 </span>
               </p>
             </form>

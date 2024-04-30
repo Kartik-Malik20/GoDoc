@@ -6,6 +6,7 @@ import Login from './Pages/Login'
 import Home from './Pages/Home'
 import ForgotPass from './Pages/ForgotPass'
 import ResetPass from './Pages/ResetPass'
+import DoctorSignUp from './Pages/DoctorSignUp'
 
 
 const App = () => {
@@ -14,6 +15,7 @@ const App = () => {
     <Navbar />
       <Routes>
         <Route path='/signup' element={<Signup />} />
+        <Route path='/doctorsignup' element={<DoctorSignUp />} />
         <Route path='/login' element={<Login />} />
         <Route path='/' element={<Home />} />
         <Route path='/forgotpassword' element={<ForgotPass />} />
