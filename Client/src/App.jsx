@@ -5,6 +5,7 @@ import Signup from './Pages/Signup'
 import Login from './Pages/Login'
 import Home from './Pages/Home'
 import ForgotPass from './Pages/ForgotPass'
+import ResetPass from './Pages/ResetPass'
 
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/' element={<Home />} />
         <Route path='/forgotpassword' element={<ForgotPass />} />
+        <Route path='/resetpassword/:token' element={<ResetPass />} />
       </Routes>
     </BrowserRouter>
   )

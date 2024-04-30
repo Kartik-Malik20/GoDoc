@@ -7,6 +7,7 @@ import { UserSignupRouter } from "./routes/user_signup.js";
 import { UserLoginRouter } from "./routes/user_login.js";
 import cors from "cors";
 import { ForgotPassRouter } from "./routes/forgot_pass.js";
+import { ResetPassRouter } from "./routes/reset_pass.js";
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use("/auth", UserSignupRouter);
 app.use("/auth", UserLoginRouter);
 app.use("/auth", ForgotPassRouter);
+app.use("/auth", ResetPassRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
