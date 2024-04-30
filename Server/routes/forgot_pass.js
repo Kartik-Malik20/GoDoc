@@ -2,18 +2,27 @@ import express from "express";
 import { User } from "../models/User.js";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
+import { Doctor } from "../models/Doctor.js";
 
 const router = express.Router();
 
 router.post("/forgot-password", async (req, res) => {
   const { email } = req.body;
   try {
+    let token;
+    let recipientEmail = email;
+    
     const user = await User.findOne({ email });
     if (!user) {
-      return res.json({ message: "User not found!" });
+      const doctor = await Doctor.findOne({ email });
+      if (!doctor) {
+        return res.json({ message: "User not found" });
+      }
+      token = jwt.sign({ id: doctor._id }, process.env.KEY);
+    } else {
+      token = jwt.sign({ id: user._id }, process.env.KEY);
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.KEY);
     var transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -24,7 +33,7 @@ router.post("/forgot-password", async (req, res) => {
 
     var mailOptions = {
       from: process.env.MAILUSER,
-      to: email,
+      to: recipientEmail,
       subject: "Reset password",
       text: `http://localhost:5173/resetPassword/${token}`,
     };
@@ -43,5 +52,6 @@ router.post("/forgot-password", async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 });
+
 
 export { router as ForgotPassRouter };
