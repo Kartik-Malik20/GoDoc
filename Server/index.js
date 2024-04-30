@@ -4,7 +4,7 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { UserSignupRouter } from "./routes/user_signup.js";
-import { UserLoginRouter } from "./routes/user_login.js";
+import { LoginRouter } from "./routes/login.js";
 import cors from "cors";
 import { ForgotPassRouter } from "./routes/forgot_pass.js";
 import { ResetPassRouter } from "./routes/reset_pass.js";
@@ -24,7 +24,7 @@ app.use(express.json());
 // Routes
 app.use("/auth", UserSignupRouter);
 app.use("/auth", DocSignup);
-app.use("/auth", UserLoginRouter);
+app.use("/auth", LoginRouter);
 app.use("/auth", ForgotPassRouter);
 app.use("/auth", ResetPassRouter);
 
