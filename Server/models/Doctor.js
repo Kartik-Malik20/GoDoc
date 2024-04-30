@@ -40,7 +40,7 @@ const DoctorSchema = new mongoose.Schema({
         type:String,
         required:true
     }
-});
+},{timestamps:true});
 
 const DoctorModel = mongoose.model('Doctor', DoctorSchema);
 
