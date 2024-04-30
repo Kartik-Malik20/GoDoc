@@ -4,6 +4,7 @@ import Navbar from './components/Navbar'
 import Signup from './Pages/Signup'
 import Login from './Pages/Login'
 import Home from './Pages/Home'
+import ForgotPass from './Pages/ForgotPass'
 
 
 const App = () => {
@@ -14,6 +15,7 @@ const App = () => {
         <Route path='/signup' element={<Signup />} />
         <Route path='/login' element={<Login />} />
         <Route path='/' element={<Home />} />
+        <Route path='/forgotpassword' element={<ForgotPass />} />
       </Routes>
     </BrowserRouter>
   )

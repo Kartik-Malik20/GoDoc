@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import { UserSignupRouter } from "./routes/user_signup.js";
 import { UserLoginRouter } from "./routes/user_login.js";
 import cors from "cors";
+import { ForgotPassRouter } from "./routes/forgot_pass.js";
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ app.use(express.json());
 // Routes
 app.use("/auth", UserSignupRouter);
 app.use("/auth", UserLoginRouter);
+app.use("/auth", ForgotPassRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
