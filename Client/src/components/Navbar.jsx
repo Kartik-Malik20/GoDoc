@@ -3,9 +3,12 @@ import logo from "../assets/GoDoc.svg";
 import menu from "../assets/menu.svg";
 import close from "../assets/close.svg";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Avatar, Dropdown } from "flowbite-react";
 
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
+  const { currentUser } = useSelector((state) => state.user);
   return (
     <nav className="w-full flex items-center p-2 fixed top-0 z-20 bg-black">
       <div className="w-full flex justify-between items-center mx-auto px-6">
@@ -23,9 +26,36 @@ const Navbar = () => {
           <li className="text-slate-300 hover:text-white font-medium cursor-pointer hover:scale-105 duration-1000 transition">
             <Link to="/appointments">All Appointments</Link>
           </li>
-          <li className="text-slate-300 hover:text-white font-medium cursor-pointer hover:scale-105 duration-1000 transition">
-            <Link to="/signup">SignUp</Link>
-          </li>
+          {currentUser ? (
+            <Dropdown
+              arrowIcon={false}
+              inline
+              label={
+                <Avatar
+                  alt="user"
+                  size="sm"
+                  img={currentUser.profilePicture}
+                  rounded
+                />
+              }
+            >
+              <Dropdown.Header>
+                <span className="block text-sm">@{currentUser.username}</span>
+                <span className="block text-sm font-medium truncate">
+                  {currentUser.email}
+                </span>
+              </Dropdown.Header>
+              <Link to={"/dashboard?tab=profile"}>
+                <Dropdown.Item>Profile</Dropdown.Item>
+              </Link>
+              <Dropdown.Divider />
+              <Dropdown.Item>Sign-Out</Dropdown.Item>
+            </Dropdown>
+          ) : (
+            <li className="text-slate-300 hover:text-white font-medium cursor-pointer hover:scale-105 duration-1000 transition">
+              <Link to="/signup">SignUp</Link>
+            </li>
+          )}
         </ul>
         <div className="sm:hidden flex flex-1 justify-end items-center">
           <img
@@ -45,9 +75,33 @@ const Navbar = () => {
               <li className="text-white font-medium cursor-pointer">
                 <Link to="/appointments">All Appointments</Link>
               </li>
-              <li className="text-white font-medium cursor-pointer">
+              {currentUser ? (<Dropdown
+              arrowIcon={false}
+              inline
+              label={
+                <Avatar
+                  alt="user"
+                  size="sm"
+                  img={currentUser.profilePicture}
+                  rounded
+                />
+              }
+            >
+              <Dropdown.Header>
+                <span className="block text-sm">@{currentUser.username}</span>
+                <span className="block text-sm font-medium truncate">
+                  {currentUser.email}
+                </span>
+              </Dropdown.Header>
+              <Link to={"/dashboard?tab=profile"}>
+                <Dropdown.Item>Profile</Dropdown.Item>
+              </Link>
+              <Dropdown.Divider />
+              <Dropdown.Item>Sign-Out</Dropdown.Item>
+            </Dropdown>) :
+              (<li className="text-white font-medium cursor-pointer">
                 <Link to="/signup">SignUp</Link>
-              </li>
+              </li>)}
             </ul>
           </div>
         </div>
