@@ -7,6 +7,8 @@ import Home from './Pages/Home'
 import ForgotPass from './Pages/ForgotPass'
 import ResetPass from './Pages/ResetPass'
 import DoctorSignUp from './Pages/DoctorSignUp'
+import Dashboard from './Pages/Dashboard'
+import PrivateRoute from './components/PrivateRoute'
 
 
 const App = () => {
@@ -20,6 +22,9 @@ const App = () => {
         <Route path='/' element={<Home />} />
         <Route path='/forgotpassword' element={<ForgotPass />} />
         <Route path='/resetpassword/:token' element={<ResetPass />} />
+        <Route element={<PrivateRoute />}>
+          <Route path='/dashboard' element={<Dashboard />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   )
