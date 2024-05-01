@@ -5,6 +5,7 @@ import { signInFailure, signInStart, signInSuccess } from '../redux/user/userSli
 import Axios from "axios";
 import Button from "../components/Button";
 import logo from "../assets/GoDocBlack.svg";
+import OAuth from "../components/OAuth";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -96,6 +97,7 @@ const Login = () => {
                   )
                 }
               ></Button>
+              <OAuth />
                 <p className="pt-2">
                   Forgot your password?{" "}
                   <span className="text-blue-600 font-semibold">

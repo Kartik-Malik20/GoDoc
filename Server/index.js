@@ -9,6 +9,7 @@ import cors from "cors";
 import { ForgotPassRouter } from "./routes/forgot_pass.js";
 import { ResetPassRouter } from "./routes/reset_pass.js";
 import { DocSignup } from "./routes/doctor_signup.js";
+import { OAuthRouter } from "./routes/oauth_signup.js";
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.use("/auth", DocSignup);
 app.use("/auth", LoginRouter);
 app.use("/auth", ForgotPassRouter);
 app.use("/auth", ResetPassRouter);
+app.use("/auth", OAuthRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

@@ -3,6 +3,7 @@ import logo from "../assets/GoDocBlack.svg";
 import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
 import Button from "../components/Button";
+import OAuth from "../components/OAuth";
 
 const Signup = () => {
   const [username, setUsername] = useState("");
@@ -124,6 +125,7 @@ const Signup = () => {
                   )
                 }
               ></Button>
+              <OAuth />
               <p className="pt-4">
                 Already have an account?{" "}
                 <span className="text-red-600 font-semibold">
