@@ -1,52 +1,40 @@
 import React, { useState } from "react";
-import logo from "../assets/GoDocBlack.svg";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { signInFailure, signInStart, signInSuccess } from '../redux/user/userSlice';
 import Axios from "axios";
 import Button from "../components/Button";
+import logo from "../assets/GoDocBlack.svg";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [loading, setLoading] = useState(null);
+  const { loading, error: errorMessage } = useSelector(state => state.user);
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   Axios.defaults.withCredentials = true;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      setLoading(true);
-      setErrorMessage(null);
-      Axios.post("http://localhost:3000/auth/login", {
-        email,
-        password,
-      })
-        .then((response) => {
-          if (response.data.status) {
-            navigate("/");
-          }
-        })
-        .catch((error) => {
-          if (error.response) {
-            // Server responded with a status code outside of 2xx range
-            setErrorMessage(error.response.data.message);
-          } else if (error.request) {
-            // The request was made but no response was received
-            setErrorMessage("No response from server. Please try again later.");
-          } else {
-            // Something happened in setting up the request that triggered an error
-            setErrorMessage("An error occurred. Please try again later.");
-          }
-          setLoading(false);
-        });
-    } catch (error) {
-      setErrorMessage(error.message);
-      setLoading(false);
-    }
+    dispatch(signInStart());
+    Axios.post("http://localhost:3000/auth/login", {
+      email,
+      password,
+    })
+    .then((response) => {
+      if (response.data.status) {
+        dispatch(signInSuccess(response.data.user)); // Assuming user data includes currentUser
+        navigate("/");
+      } else {
+        dispatch(signInFailure(response.data.message));
+      }
+    })
+    .catch((error) => {
+      dispatch(signInFailure(error.message));
+    });
   };
-
   return (
     <div>
       <div className="h-screen bg-gradient-to-r from-black to-slate-900 pt-20">

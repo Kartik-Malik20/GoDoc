@@ -1,43 +1,43 @@
-// routes/user_login.js
-
 import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { User } from "../models/User.js";
 import { Doctor } from "../models/Doctor.js";
+import { errorHandler } from "../utils/error.js";
 
 const router = express.Router();
 
 // Middleware to parse JSON bodies
 router.use(express.json());
 
-router.post("/login", async (req, res) => {
+router.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email });
+  let user = await User.findOne({ email });
+  let userType = 'user';
+
+  // Check if email corresponds to a user
   if (!user) {
-    const doctor = await Doctor.findOne({ email });
-    if (!doctor) {
-      return res.json({ message: "Doctor not found" });
+    user = await Doctor.findOne({ email });
+    if (!user) {
+      return next(errorHandler(404, 'User not found'));
     }
-
-    const validPassword = await bcrypt.compare(password, doctor.password);
-    if (!validPassword) {
-      return res.json({ message: "Password is incorrect" });
-    }
-
-    const token = jwt.sign({ name: doctor.name }, process.env.KEY);
-    res.cookie("token", token, { httpOnly: true });
-    return res.json({ status: true, message: "Login Successful as a doctor" });
+    userType = 'doctor';
   }
 
+  // Check password
   const validPassword = await bcrypt.compare(password, user.password);
   if (!validPassword) {
-    return res.json({ message: "Password is incorrect" });
+    return next(errorHandler(400, 'Invalid Password'));
   }
 
-  const token = jwt.sign({ firstname: user.firstname }, process.env.KEY);
+  // Generate JWT token
+  const token = jwt.sign({ id: user._id, userType }, process.env.KEY);
+
+  // Send token in response
   res.cookie("token", token, { httpOnly: true });
-  return res.json({ status: true, message: "Login Successful as a user" });
+
+  // Send user type and any necessary user information in the response
+  res.json({ status: true, userType, user });
 });
 
 export { router as LoginRouter };
