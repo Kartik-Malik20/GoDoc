@@ -3,7 +3,6 @@ import logo from "../assets/GoDocBlack.svg";
 import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
 import Button from "../components/Button";
-import { Spinner } from "flowbite-react";
 
 const Signup = () => {
   const [firstname, setFirstname] = useState("");

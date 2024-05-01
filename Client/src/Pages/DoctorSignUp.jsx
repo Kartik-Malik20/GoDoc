@@ -14,30 +14,49 @@ const DoctorSignUp = () => {
   const [city, setCity] = useState("")
   const [state, setState] = useState("")
   const [zipCode, setZipCode] = useState("")
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [loading, setLoading] = useState(null);
 
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Axios.post("http://localhost:3000/auth/docsignup", {
-      name,
-      email,
-      password,
-      phoneNumber,
-      clinicName,
-      clinicAddress,
-      city,
-      state,
-      zipCode
-    })
-      .then((response) => {
-        if (response.data.status) {
-          navigate("/login");
-        }
+    try {
+      setLoading(true);
+      setErrorMessage(null);
+      Axios.post("http://localhost:3000/auth/docsignup", {
+        name,
+        email,
+        password,
+        phoneNumber,
+        clinicName,
+        clinicAddress,
+        city,
+        state,
+        zipCode
       })
-      .catch((err) => {
-        console.log("Error occured during signup", err);
-      });
+        .then((response) => {
+          if (response.data.status) {
+            navigate("/login");
+          }
+        })
+        .catch((error) => {
+          if (error.response) {
+            // Server responded with a status code outside of 2xx range
+            setErrorMessage(error.response.data.message);
+          } else if (error.request) {
+            // The request was made but no response was received
+            setErrorMessage("No response from server. Please try again later.");
+          } else {
+            // Something happened in setting up the request that triggered an error
+            setErrorMessage("An error occurred. Please try again later.");
+          }
+          setLoading(false);
+        });
+    } catch (error) {
+      setErrorMessage(error.message);
+      setLoading(false);
+    }
   };
 
   return (
@@ -164,7 +183,15 @@ const DoctorSignUp = () => {
                   </a>
                 </span>
               </div>
-              <Button content='Register Now' />
+              <Button
+                content={
+                  loading ? (
+                    <span className="p-3">Loading...</span>
+                  ) : (
+                    "Register Now"
+                  )
+                }
+              ></Button>
               <p className="pt-4">
                 Already have an account?{" "}
                 <span className="text-red-600 font-semibold">
@@ -178,6 +205,7 @@ const DoctorSignUp = () => {
                 </span>
               </p>
             </form>
+            {errorMessage && <p>{errorMessage}</p>}
           </div>
         </div>
       </div>

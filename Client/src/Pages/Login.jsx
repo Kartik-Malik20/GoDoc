@@ -7,6 +7,8 @@ import Button from "../components/Button";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [loading, setLoading] = useState(null);
 
   const navigate = useNavigate();
 
@@ -14,19 +16,35 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Axios.post("http://localhost:3000/auth/login", {
-      email,
-      password,
-    })
-      .then((response) => {
-        if (response.data.status) {
-          navigate("/");
-        }
+    try {
+      setLoading(true);
+      setErrorMessage(null);
+      Axios.post("http://localhost:3000/auth/login", {
+        email,
+        password,
       })
-      .catch((err) => {
-        setError("An error occurred during login. Please try again.");
-        console.error("Login error:", err);
-      });
+        .then((response) => {
+          if (response.data.status) {
+            navigate("/");
+          }
+        })
+        .catch((error) => {
+          if (error.response) {
+            // Server responded with a status code outside of 2xx range
+            setErrorMessage(error.response.data.message);
+          } else if (error.request) {
+            // The request was made but no response was received
+            setErrorMessage("No response from server. Please try again later.");
+          } else {
+            // Something happened in setting up the request that triggered an error
+            setErrorMessage("An error occurred. Please try again later.");
+          }
+          setLoading(false);
+        });
+    } catch (error) {
+      setErrorMessage(error.message);
+      setLoading(false);
+    }
   };
 
   return (
@@ -81,7 +99,15 @@ const Login = () => {
                     </a>
                   </span>
                 </div>
-                <Button content='Login' />
+                <Button
+                content={
+                  loading ? (
+                    <span className="p-3">Loading...</span>
+                  ) : (
+                    "LogIn"
+                  )
+                }
+              ></Button>
                 <p className="pt-2">
                   Forgot your password?{" "}
                   <span className="text-blue-600 font-semibold">
@@ -95,6 +121,7 @@ const Login = () => {
                   </span>
                 </p>
               </form>
+              {errorMessage && <p>{errorMessage}</p>}
             </div>
           </div>
         </div>
