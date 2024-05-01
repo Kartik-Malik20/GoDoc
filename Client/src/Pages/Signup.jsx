@@ -5,8 +5,7 @@ import Axios from "axios";
 import Button from "../components/Button";
 
 const Signup = () => {
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
@@ -20,8 +19,7 @@ const Signup = () => {
       setLoading(true);
       setErrorMessage(null);
       Axios.post("http://localhost:3000/auth/signup", {
-        firstname,
-        lastname,
+        username,
         email,
         password,
       })
@@ -66,23 +64,15 @@ const Signup = () => {
               . It's free and only takes a minute.
             </p>
             <form onSubmit={handleSubmit}>
-              <div className="flex flex-col sm:flex-row gap-5">
+              <div className="mt-5">
                 <input
                   type="text"
-                  placeholder="First Name"
-                  id="firstname"
-                  name="firstname"
-                  className="border border-slate-400 rounded-lg py-2 px-2 sm:w-1/2"
+                  placeholder="Username"
+                  id="username"
+                  name="username"
+                  className="border border-slate-400 rounded-lg py-2 px-2 w-full"
                   required
-                  onChange={(e) => setFirstname(e.target.value)}
-                />
-                <input
-                  type="text"
-                  placeholder="Last Name"
-                  id="lastname"
-                  name="lastname"
-                  className="border border-slate-400 rounded-lg py-2 px-2 sm:w-1/2"
-                  onChange={(e) => setLastname(e.target.value)}
+                  onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
               <div className="mt-5">
